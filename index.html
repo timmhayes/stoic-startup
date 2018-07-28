@@ -62,6 +62,18 @@
       font-style: italic;
     }
 
+    #gh-logo {
+      opacity: 0.2;
+      position: fixed;
+      right: 10px;
+      top: 10px;
+      transition: 0.5s opacity;
+    }
+
+    #gh-logo:focus, #gh-logo:hover {
+      opacity: 1;
+    }
+
     @media (max-width:620px) {
       .quote {
         font-size: 1.5rem;
@@ -76,6 +88,9 @@
 </head>
 
 <body>
+  <a id="gh-logo" href="https://github.com/timmhayes/stoic-startup" title="GitHub Source">
+    <img src="icons/GitHub-Mark-Light-32px.png" alt="GitHub Logo"/>
+  </a>
   <div class="wrapper">
     <div class="quote"></div>
     <div class="author"></div>

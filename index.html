@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Stoic Startup</title>
+  <style>
+
+    html, body {
+      background: #000;
+      font-family: Calibri, Arial, sans-serif;
+      height: 100%;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+    }
+
+    .wrapper {
+      bottom: 0;
+      color: #fff;
+      padding: 2rem;
+      position: fixed;
+      right: 0;
+      max-width: 600px;
+      transition: opacity 0.5s, transform 0.5s;
+    }
+
+    .hidden {
+      opacity: 0;
+      transform:scale(0.95);
+    }
+
+    .quote {
+      font-size: 2rem;
+      padding-bottom: 0.5rem;
+    }
+
+    .quote::before{
+      content: "\201C";
+      left: -0.5rem;
+      margin-left: -1rem;
+      position: relative;
+    }
+
+    .quote::after{
+      content: "\201D";
+    }
+
+    .author {
+      font-style: italic;
+    }
+
+    @media (max-width:620px) {
+      .quote {
+        font-size: 1.5rem;
+      }
+      .quote::before{
+        left: -0.375rem;
+        margin-left: -0.75rem;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="wrapper">
+    <div class="quote"></div>
+    <div class="author"></div>
+  </div>
+  <div class="wrapper hidden">
+    <div class="quote"></div>
+    <div class="author"></div>
+  </div>
+  <script>
+
+    document.addEventListener("DOMContentLoaded", function (event) {
+
+      var currentArrayPosition = 0
+
+      function shuffleArray(array) {
+        for (var i = array.length - 1; i > 0; i--) {
+          var j = Math.floor(Math.random() * (i + 1));
+          var temp = array[i];
+          array[i] = array[j];
+          array[j] = temp;
+        }
+      }
+
+      function increment(incrementBy) {
+
+        if (!incrementBy) incrementBy = 1
+        currentArrayPosition += incrementBy
+        if (currentArrayPosition >= quotes.length) {
+          currentArrayPosition = 0
+        } else if (currentArrayPosition < 0) {
+          currentArrayPosition = quotes.length
+        }
+
+        var incomingWrapper = document.querySelector('.hidden')
+        var outgoingWrapper = document.querySelector('.wrapper:not(.hidden)')
+        incomingWrapper.querySelector('.quote').innerText = quotes[currentArrayPosition].quote
+        incomingWrapper.querySelector('.author').innerText = quotes[currentArrayPosition].author
+        incomingWrapper.classList.remove('hidden')
+        outgoingWrapper.classList.add('hidden')
+
+      }
+
+      document.body.addEventListener('click', function() { increment() })
+      document.body.addEventListener('keydown', function (e) {
+        if (e.which === 37) increment(-1)
+        else if (e.which == 39) increment(1)
+      })
+
+      shuffleArray(quotes)
+      increment()
+
+    })
+
+    var quotes = [
+      {
+        "quote": "Think of the life you have lived until now as over and, as a dead man, see what’s left as a bonus and live it according to Nature. Love the hand that fate deals you and play it as your own, for what could be more fitting?",
+        "author": "Marcus Aurelius"
+      },
+
+      {
+        "quote": "In your actions, don’t procrastinate. In your conversations, don’t confuse. In your thoughts, don’t wander. In your soul, don’t be passive or aggressive. In your life, don’t be all about business.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "If it is not right, do not do it, if it is not true, do not say it.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Choose not to be harmed — and you won’t feel harmed. Don’t feel harmed — and you haven’t been.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "It’s time you realized that you have something in you more powerful and miraculous than the things that affect you and make you dance like a puppet.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "External things are not the problem. It’s your assessment of them. Which you can erase right now.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "If anyone can refute me—show me I’m making a mistake or looking at things from the wrong perspective—I’ll gladly change. It’s the truth I’m after, and the truth never harmed anyone.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "You could leave life right now. Let that determine what you do and say and think.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Be tolerant with others and strict with yourself.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "We are more often frightened than hurt; and we suffer more in imagination than in reality.",
+        "author": "Seneca"
+      },
+      {
+        "quote": "If a man knows not which port he sails, no wind is favorable.",
+        "author": "Seneca"
+      },
+      {
+        "quote": "No person has the power to have everything they want, but it is in their power not to want what they don’t have, and to cheerfully put to good use what they do have.",
+        "author": "Seneca"
+      },
+      {
+        "quote": "Nothing, to my way of thinking, is a better proof of a well ordered mind than a man’s ability to stop just where he is and pass some time in his own company.",
+        "author": "Seneca"
+      },
+      {
+        "quote": "He who fears death will never do anything worth of a man who is alive.",
+        "author": "Seneca"
+      },
+      {
+        "quote": "This is our big mistake: to think we look forward to death. Most of death is already gone. Whatever time has passed is owned by death.",
+        "author": "Seneca"
+      },
+      {
+        "quote": "Life is very short and anxious for those who forget the past, neglect the present, and fear the future.",
+        "author": "Seneca"
+      },
+      {
+        "quote": "I judge you unfortunate because you have never lived through misfortune. You have passed through life without an opponent—no one can ever know what you are capable of, not even you.",
+        "author": "Seneca"
+      },
+      {
+        "quote": "How does it help…to make troubles heavier by bemoaning them?",
+        "author": "Seneca"
+      },
+      {
+        "quote": "People are frugal in guarding their personal property; but as soon as it comes to squandering time they are most wasteful of the one thing in which it is right to be stingy.",
+        "author": "Seneca"
+      },
+      {
+        "quote": "How long are you going to wait before you demand the best for yourself?",
+        "author": "Epictetus"
+      },
+      {
+        "quote": "Don’t seek for everything to happen as you wish it would, but rather wish that everything happens as it actually will—then your life will flow well.",
+        "author": "Epictetus"
+      },
+      {
+        "quote": "First say to yourself what you would be; and then do what you have to do.",
+        "author": "Epictetus"
+      },
+      {
+        "quote": "Curb your desire—don’t set your heart on so many things and you will get what you need.",
+        "author": "Epictetus"
+      },
+      {
+        "quote": "That’s why the philosophers warn us not to be satisfiedwith mere learning, but to add practice and then training. For as time passes we forget what we learned and end up doing the opposite, and hold opinions the opposite of what we should.",
+        "author": "Epictetus"
+      },
+      {
+        "quote": "Don’t explain your philosophy. Embody it.",
+        "author": "Epictetus"
+      },
+      {
+        "quote": "The chief task in life is simply this: to identify and separate matters so that I can say clearly to myself which are externals not under my control, and which have to do with the choices I actually control. Where then do I look for good and evil? Not to uncontrollable externals, but within myself to the choices that are my own…",
+        "author": "Epictetus"
+      },
+      {
+        "quote": "If anyone tells you that a certain person speaks ill of you, do not make excuses about what is said of you but answer, ‘He was ignorant of my other faults, else he would have not mentioned these alone.'",
+        "author": "Epictetus"
+      },
+      {
+        "quote": "I begin to speak only when I’m certain what I’ll say isn’t better left unsaid.",
+        "author": "Cato"
+      },
+      {
+        "quote": "What man actually needs is not a tensionless state but rather the striving and struggling for some goal worthy of him.",
+        "author": "Viktor Frankl"
+      },
+      {
+        "quote": "When we are no longer able to change a situation, we are challenged to change ourselves.",
+        "author": "Viktor Frankl"
+      },
+
+
+
+
+      {
+        "quote": "You have power over your mind - not outside events. Realize this, and you will find strength.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Dwell on the beauty of life. Watch the stars, and see yourself running with them.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "The happiness of your life depends upon the quality of your thoughts.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Everything we hear is an opinion, not a fact. Everything we see is a perspective, not the truth.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Waste no more time arguing about what a good man should be. Be one.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "If you are distressed by anything external, the pain is not due to the thing itself, but to your estimate of it; and this you have the power to revoke at any moment.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "When you arise in the morning think of what a privilege it is to be alive, to think, to enjoy, to love ...",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Accept the things to which fate binds you, and love the people with whom fate brings you together,but do so with all your heart.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "The best revenge is to be unlike him who performed the injury.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "The soul becomes dyed with the colour of its thoughts.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "It is not death that a man should fear, but he should fear never beginning to live.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Our life is what our thoughts make it.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "If someone is able to show me that what I think or do is not right, I will happily change, for I seek the truth, by which no one was ever truly harmed. It is the person who continues in his self-deception and ignorance who is harmed.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Never let the future disturb you. You will meet it, if you have to, with the same weapons of reason which today arm you against the present.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "If it is not right do not do it; if it is not true do not say it.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Very little is needed to make a happy life; it is all within yourself in your way of thinking.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "The object of life is not to be on the side of the majority, but to escape finding oneself in the ranks of the insane.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "I have often wondered how it is that every man loves himself more than all the rest of men, but yet sets less value on his own opinion of himself than on the opinion of others.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Whenever you are about to find fault with someone, ask yourself the following question: What fault of mine most nearly resembles the one I am about to criticize?",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "The best revenge is not to be like your enemy.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Reject your sense of injury and the injury itself disappears.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "When another blames you or hates you, or people voice similar criticisms, go to their souls, penetrate inside and see what sort of people they are. You will realize that there is no need to be racked with anxiety that they should hold any particular opinion about you.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "How much more grievous are the consequences of anger than the causes of it.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "The first rule is to keep an untroubled spirit. The second is to look things in the face and know them for what they are.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Begin each day by telling yourself: Today I shall be meeting with interference, ingratitude, insolence, disloyalty, ill-will, and selfishness – all of them due to the offenders’ ignorance of what is good or evil.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "When you wake up in the morning, tell yourself: the people I deal with today will be meddling, ungrateful, arrogant, dishonest, jealous and surly. They are like this because they can't tell good from evil. But I have seen the beauty of good, and the ugliness of evil, and have recognized that the wrongdoer has a nature related to my own - not of the same blood and birth, but the same mind, and possessing a share of the divine. And so none of them can hurt me. No one can implicate me in ugliness. Nor can I feel angry at my relative, or hate him. We were born to work together like feet, hands and eyes, like the two rows of teeth, upper and lower. To obstruct each other is unnatural. To feel anger at someone, to turn your back on him: these are unnatural.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Look well into thyself; there is a source of strength which will always spring up if thou wilt always look.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Here is a rule to remember in future, when anything tempts you to feel bitter: not \"This is misfortune,\" but \"To bear this worthily is good fortune.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "How much time he gains who does not look to see what his neighbour says or does or thinks, but only at what he does himself, to make it just and holy.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "You are a little soul carrying about a corpse, as Epictetus used to say.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Do every act of your life as though it were the very last act of your life.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Look back over the past, with its changing empires that rose and fell, and you can foresee the future too.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "What we do now echoes in eternity.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Do not indulge in dreams of having what you have not, but reckon up the chief of the blessings you do possess, and then thankfully remember how you would crave for them if they were not yours.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "For it is in your power to retire into yourself whenever you choose.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Think of yourself as dead. You have lived your life. Now, take what's left and live it properly. What doesn't transmit light creates its own darkness.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "The universe is change; our life is what our thoughts make it.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Perfection of character is this: to live each day as if it were your last, without frenzy, without apathy, without pretence.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "You always own the option of having no opinion. There is never any need to get worked up or to trouble your soul about things you can't control. These things are not asking to be judged by you. Leave them alone.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Never esteem anything as of advantage to you that will make you break your word or lose your self-respect.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Remember that very little is needed to make a happy life.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "A man’s worth is no greater than the worth of his ambitions.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Receive without conceit, release without struggle.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Nothing happens to anybody which he is not fitted by nature to bear.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Don't go on discussing what a good person should be. Just be one.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Just that you do the right thing. The rest doesn't matter. Cold or warm. Tired or well-rested. Despised or honored. Dying...or busy with other assignments. Because dying, too, is one of our assignments in life. There as well: \"To do what needs doing.\" Look inward. Don't let the true nature of anything elude you. Before long, all existing things will be transformed, to rise like smoke (assuming all things become one), or be dispersed in fragments...to move from one unselfish act to another with God in mind. Only there, delight and stillness...when jarred, unavoidably, by circumstances, revert at once to yourself, and don't lose the rhythm more than you can help. You'll have a better grasp of the harmony if you keep going back to it.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "How ridiculous and how strange to be surprised at anything which happens in life",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Life is neither good or evil, but only a place for good and evil.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Whatever anyone does or says, I must be emerald and keep my colour.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Humans have come into being for the sake of each other, so either teach them, or learn to bear them.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Though you break your heart, men will go on as before.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "It is in your power to withdraw yourself whenever you desire. Perfect tranquility within consists in the good ordering of the mind, the realm of your own.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Regain your senses, call yourself back, and once again wake up. Now that you realize that only dreams were troubling you, view this 'reality' as you view your dreams.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Do what you will. Even if you tear yourself apart, most people will continue doing the same things.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "The happiness of your life depends upon the quality of your thoughts: therefore, guard accordingly, and take care that you entertain no notions unsuitable to virtue and reasonable nature.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Whoever does wrong, wrongs himself; whoever does injustice, does it to himself, making himself evil.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "The memory of everything is very soon overwhelmed in time.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Observe always that everything is the result of change, and get used to thinking that there is nothing Nature loves so well as to change existing forms and make new ones like them.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Accept whatever comes to you woven in the pattern of your destiny, for what could more aptly fit your needs?",
+        "author": "Marcus Aurelius"
+      }, {
+        "quote": "If someone can prove me wrong and show me my mistake in any thought or action, I shall gladly change. I seek the truth, which never harmed anyone: the harm is to persist in one's own self-deception and ignorance.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "If any man despises me, that is his problem. My only concern is not doing or saying anything deserving of contempt.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Do not act as if you had ten thousand years to throw away. Death stands at your elbow. Be good for something while you live and it is in your power.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "If you are pained by external things, it is not they that disturb you, but your own judgement of them. And it is in your power to wipe out that judgement now.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Nowhere can man find a quieter or more untroubled retreat than in his own soul.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Because a thing seems difficult for you, do not think it impossible for anyone to accomplish.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Or is it your reputation that's bothering you? But look at how soon we're all forgotten. The abyss of endless time that swallows it all. The emptiness of those applauding hands. The people who praise us; how capricious they are, how arbitrary. And the tiny region it takes place. The whole earth a point in space - and most of it uninhabited.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "A noble man compares and estimates himself by an idea which is higher than himself; and a mean man, by one lower than himself. The one produces aspiration; the other ambition, which is the way in which a vulgar man aspires.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "A person's worth is measured by the worth of what he values.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Confine yourself to the present.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Pass then through this little space of time conformably to nature, and end thy journey in content, just as an olive falls off when it is ripe, blessing nature who produced it, and thanking the tree on which it grew.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "That which is really beautiful has no need of anything; not more than law, not more than truth, not more than benevolence or modesty.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "The happiness of those who want to be popular depends on others; the happiness of those who seek pleasure fluctuates with moods outside their control; but the happiness of the wise grows out of their own free acts.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Dig within. Within is the wellspring of Good; and it is always ready to bubble up, if you just dig.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Misfortune nobly born is good fortune.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Take full account of what Excellencies you possess, and in gratitude remember how you would hanker after them, if you had them not.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Is your cucumber bitter? Throw it away. Are there briars in your path? Turn aside. That is enough. Do not go on and say, \"Why were things of this sort ever brought into this world?\" neither intolerable nor everlasting - if thou bearest in mind that it has its limits, and if thou addest nothing to it in imagination. Pain is either an evil to the body (then let the body say what it thinks of it!)-or to the soul. But it is in the power of the soul to maintain its own serenity and tranquility. . . .",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "What we cannot bear removes us from life; what remains can be borne.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "I was once a fortunate man but at some point fortune abandoned me.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "A man must stand erect, not be kept erect by others.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "The art of living is more like wrestling than dancing, in so far as it stands ready against the accidental and the unforeseen, and is not apt to fall.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "When you arise in the moring, think of what a precious privelege it is to be alive-- to breathe, to think, to enjoy, to love",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "All men are made one for another: either then teach them better or bear with them.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Life is opinion.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "The things you think about determine the quality of your mind.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Every living organism is fulfilled when it follows the right path for its own nature.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Unhappy am I because this has happened to me.- Not so, but happy am I, though this has happened to me, because I continue free from pain, neither crushed by the present nor fearing the future.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "Be like the cliff against which the waves continually break; but it stands firm and tames the fury of the water around it.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "It never ceases to amaze me: we all love ourselves more than other people, but care more about their opinion than our own.",
+        "author": "Marcus Aurelius"
+      },
+      {
+        "quote": "How ridiculous and unrealistic is the man who is astonished at anything that happens in life.",
+        "author": "Marcus Aurelius"
+      }
+
+    ]
+
+  </script>
+</body>
+
+</html>

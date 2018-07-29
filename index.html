@@ -15,6 +15,7 @@
   <link rel="manifest" href="./icons/manifest.json">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="msapplication-config" content="./icons/browserconfig.xml">
+  <meta property="og:image" content="./icons/facebook-preview.jpg" />
 
   <title>Stoic Startup</title>
   <style>
@@ -27,20 +28,29 @@
       margin: 0;
       width: 100%;
     }
+    
+    .flex {
+      align-items: center;
+      bottom: 0;
+      display: flex;
+      justify-content: center;
+      left: 0;
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
 
-    .wrapper {
+    .quote-box {
       bottom: 0;
       color: #fff;
       padding: 2rem 2rem 2rem 2.5rem;
-      position: fixed;
-      right: 0;
       max-width: 600px;
       transition: opacity 0.5s, transform 0.5s;
     }
 
     .hidden {
       opacity: 0;
-      transform:scale(0.95);
+      transform: scale(0.95);
     }
 
     .quote {
@@ -48,14 +58,14 @@
       padding-bottom: 0.5rem;
     }
 
-    .quote::before{
+    .quote::before {
       content: "\201C";
       left: -0.5rem;
       margin-left: -1rem;
       position: relative;
     }
 
-    .quote::after{
+    .quote::after {
       content: "\201D";
     }
 
@@ -75,14 +85,27 @@
       opacity: 1;
     }
 
-    @media (max-width:620px) {
+    @media (max-width: 960px) {
+      .long .quote {
+        font-size: 1.4rem;
+      }
+    }
+
+    @media (max-width: 640px) {
+
       .quote {
         font-size: 1.5rem;
       }
-      .quote::before{
+
+      .long .quote {
+        font-size: 1.2rem;
+      }
+
+      .quote::before {
         left: -0.375rem;
         margin-left: -0.75rem;
       }
+
     }
 
   </style>
@@ -92,14 +115,18 @@
   <a id="gh-logo" href="https://github.com/timmhayes/stoic-startup" title="GitHub Source">
     <img src="icons/GitHub-Mark-Light-32px.png" alt="GitHub Logo"/>
   </a>
-  <div class="wrapper">
-    <div class="quote"></div>
-    <div class="author"></div>
-  </div>
-  <div class="wrapper hidden">
-    <div class="quote"></div>
-    <div class="author"></div>
-  </div>
+  <section class="flex">
+    <div class="quote-box">
+      <div class="quote"></div>
+      <div class="author"></div>
+    </div>
+  </section>
+  <section class="flex">
+    <div class="quote-box hidden">
+      <div class="quote"></div>
+      <div class="author"></div>
+    </div>
+  </section>
   <script>
 
     document.addEventListener("DOMContentLoaded", function (event) {
@@ -117,7 +144,7 @@
 
       function increment(incrementBy) {
 
-        if (!incrementBy) incrementBy = 1
+        if (typeof incrementBy !== 'number') incrementBy = 1
         currentArrayPosition += incrementBy
         if (currentArrayPosition >= quotes.length) {
           currentArrayPosition = 0
@@ -125,19 +152,22 @@
           currentArrayPosition = quotes.length
         }
 
-        var incomingWrapper = document.querySelector('.hidden')
-        var outgoingWrapper = document.querySelector('.wrapper:not(.hidden)')
-        incomingWrapper.querySelector('.quote').innerText = quotes[currentArrayPosition].quote
-        incomingWrapper.querySelector('.author').innerText = quotes[currentArrayPosition].author
-        incomingWrapper.classList.remove('hidden')
-        outgoingWrapper.classList.add('hidden')
+        var incoming = document.querySelector('.hidden')
+        var outgoing = document.querySelector('.quote-box:not(.hidden)')
+        var quoteObj = quotes[currentArrayPosition]
+        incoming.classList.toggle('long', quoteObj.quote.length > 400)
+        incoming.querySelector('.quote').innerText = quoteObj.quote
+        incoming.querySelector('.author').innerText = quoteObj.author
+        incoming.classList.remove('hidden')
+        outgoing.classList.add('hidden')
 
       }
 
-      document.body.addEventListener('click', function() { increment() })
+      document.body.addEventListener('click', increment )
+      document.body.addEventListener('touch', increment )
       document.body.addEventListener('keydown', function (e) {
         if (e.which === 37) increment(-1)
-        else if (e.which == 39) increment(1)
+        else if (e.which === 13 || e.which === 32 || e.which === 39) increment(1)
       })
 
       shuffleArray(quotes)

@@ -28,13 +28,14 @@
       margin: 0;
       width: 100%;
     }
-    
+
     .flex {
       align-items: center;
       bottom: 0;
       display: flex;
       justify-content: center;
       left: 0;
+      overflow-y: auto;
       position: absolute;
       right: 0;
       top: 0;
@@ -97,6 +98,10 @@
         font-size: 1.5rem;
       }
 
+      .short .quote {
+        font-size: 1.8rem;
+      }
+
       .long .quote {
         font-size: 1.2rem;
       }
@@ -155,10 +160,13 @@
         var incoming = document.querySelector('.hidden')
         var outgoing = document.querySelector('.quote-box:not(.hidden)')
         var quoteObj = quotes[currentArrayPosition]
-        incoming.classList.toggle('long', quoteObj.quote.length > 400)
+        incoming.classList.remove('hidden') // ie doesn't support multiple params on classlist methods
+        incoming.classList.remove('short')
+        incoming.classList.remove('long')
+        if (quoteObj.quote.length < 150) incoming.classList.add('short')
+        else if (quoteObj.quote.length > 400) incoming.classList.toggle('long')
         incoming.querySelector('.quote').innerText = quoteObj.quote
         incoming.querySelector('.author').innerText = quoteObj.author
-        incoming.classList.remove('hidden')
         outgoing.classList.add('hidden')
 
       }

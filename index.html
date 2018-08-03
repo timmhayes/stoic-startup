@@ -162,7 +162,7 @@
       function share(e) {
         FB.ui({
           method: 'share',
-          href: 'https://timmhayes.github.io/stoic-startup/',
+          href: 'https://timmhayes.github.io/stoic-startup/' + location.hash,
           source: 'https://timmhayes.github.io/stoic-startup/icons/android-chrome-256x256.png',
           quote: '"' + quotes[currentArrayPosition].quote + '" - ' + quotes[currentArrayPosition].author
         }, function(response){});

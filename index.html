@@ -136,23 +136,25 @@
 
     document.addEventListener('DOMContentLoaded', function (event) {
 
-      var currentArrayPosition = 0
+      var currentArrayPosition = -1
 
-        }
 
-      function increment(incrementBy) {
-
+      function increment (incrementBy) {
+        var to = currentArrayPosition
         if (typeof incrementBy !== 'number') incrementBy = 1
-        currentArrayPosition += incrementBy
-        if (currentArrayPosition >= quotes.length) {
-          currentArrayPosition = 0
-        } else if (currentArrayPosition < 0) {
-          currentArrayPosition = quotes.length
+        to += incrementBy
+        if (to >= quotes.length) {
+          to = 0
+        } else if (to < 0) {
+          to = quotes.length - 1
         }
+        goTo(to)
+      }
 
+      function goTo (index, ignorePushState) {
         var incoming = document.querySelector('.hidden')
         var outgoing = document.querySelector('.quote-box:not(.hidden)')
-        var quoteObj = quotes[currentArrayPosition]
+        var quoteObj = quotes[index]
         incoming.classList.remove('hidden') // ie doesn't support multiple params on classlist methods
         incoming.classList.remove('short')
         incoming.classList.remove('long')
@@ -161,9 +163,19 @@
         incoming.querySelector('.quote').innerText = quoteObj.quote
         incoming.querySelector('.author').innerText = quoteObj.author
         outgoing.classList.add('hidden')
+        if (!ignorePushState) {
+          var action = index === 0 ? 'replaceState' : 'pushState'
+          window.history[action](index, null, '#' + quoteObj.hash)
+        }
+        currentArrayPosition = index
 
       }
 
+      window.addEventListener('popstate', function (e) {
+        if (typeof e.state === 'number') {
+          goTo(e.state, true)
+        }
+      })
       document.body.addEventListener('click', increment )
       document.body.addEventListener('touch', increment )
       document.body.addEventListener('keydown', function (e) {
@@ -171,6 +183,16 @@
         else if (e.which === 13 || e.which === 32 || e.which === 39) increment(1)
       })
 
+      if (window.location.hash) {
+        var hash = window.location.hash.replace(/^#/, '')
+        var index = quotes.findIndex(function (quote) {
+          return hash === quote.hash
+        })
+        if (index !== -1) goTo(index)
+        else increment()
+      } else {
+        increment()
+      }
 
     })
 
@@ -665,6 +687,12 @@
       quotes[i] = quotes[j];
       quotes[j] = temp;
     }
+
+    quotes.forEach(function(element) {
+      var short = element.quote.match(/^(\w+\W*,*){1,10}/)
+      element.hash = encodeURI(short[0].replace(/ $/gi, '').replace(/ /gi, '_').replace(/[\:;,.\?\’]/gi, '').toLowerCase())
+    })
+
   </script>
 </body>
 

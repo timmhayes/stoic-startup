@@ -718,7 +718,7 @@
 
     quotes.forEach(function(element) {
       var short = element.quote.match(/^(\w+\W*,*){1,10}/)
-      element.hash = encodeURI(short[0].replace(/ $/gi, '').replace(/ /gi, '_').replace(/[\:;,.\?\’]/gi, '').toLowerCase())
+      element.hash = encodeURI(short[0].replace(/ $/gi, '').replace(/[ —]/gi, '_').replace(/[\:;,.\?\’]/gi, '').toLowerCase())
     })
 
     // polyfill for IE 11

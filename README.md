@@ -1,5 +1,5 @@
 # stoic-startup
-This simple page displays random quotes on stoicism. You can view it directly or add it to your browser as its default home page. Visit the page here:
+This simple page displays random quotes on stoicism. You can view it directly, add it to your desktop browser as a default home page, or add it to your home screen on mobile. Visit the page here:
 
 
 https://timmhayes.github.io/stoic-startup/

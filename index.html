@@ -13,6 +13,7 @@
   <link rel="mask-icon" href="./icons/safari-pinned-tab.svg" color="#5bbad5">
   <link rel="shortcut icon" href="./icons/favicon.ico">
   <link rel="manifest" href="./icons/manifest.json">
+  <script src="https://connect.facebook.net/en_US/sdk.js"></script>
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="msapplication-config" content="./icons/browserconfig.xml">
   <meta property="og:image" content="./icons/facebook-preview.jpg" />
@@ -74,17 +75,26 @@
       font-style: italic;
     }
 
-    #gh-logo {
-      opacity: 0.2;
+    .logo {
+      opacity: 0.3;
       position: fixed;
-      right: 10px;
+      right: 60px;
       top: 10px;
       transition: 0.5s opacity;
     }
 
-    #gh-logo:focus, #gh-logo:hover {
+    .logo:focus, .logo:hover {
       opacity: 1;
     }
+
+    #fb-logo {
+      width: 32px;
+    }
+
+    #gh-logo {
+      right: 10px;
+    }
+
 
     @media (max-width: 960px) {
       .long .quote {
@@ -117,9 +127,6 @@
 </head>
 
 <body>
-  <a id="gh-logo" href="https://github.com/timmhayes/stoic-startup" title="GitHub Source">
-    <img src="icons/GitHub-Mark-Light-32px.png" alt="GitHub Logo"/>
-  </a>
   <section class="flex">
     <div class="quote-box">
       <div class="quote"></div>
@@ -132,12 +139,36 @@
       <div class="author"></div>
     </div>
   </section>
+  <a id="fb-logo" class="logo" href="#" title="Share on Facebook">
+    <img src="icons/facebook.svg" alt="Facebook Logo"/>
+  </a>
+  <a id="gh-logo" class="logo" href="https://github.com/timmhayes/stoic-startup" title="GitHub Source">
+    <img src="icons/GitHub-Mark-Light-32px.png" alt="GitHub Logo"/>
+  </a>
   <script>
 
     document.addEventListener('DOMContentLoaded', function (event) {
 
       var currentArrayPosition = -1
 
+      FB.init({
+        appId   : 210276656313368,
+        status  : true,
+        xfbml   : false,
+        version : 'v3.1'
+      });
+      FB.AppEvents.logPageView();
+
+      function share(e) {
+        FB.ui({
+          method: 'share',
+          href: 'https://timmhayes.github.io/stoic-startup/',
+          source: 'https://timmhayes.github.io/stoic-startup/icons/android-chrome-256x256.png',
+          quote: '"' + quotes[currentArrayPosition].quote + '" - ' + quotes[currentArrayPosition].author
+        }, function(response){});
+        e.stopPropagation()
+        return false
+      }
 
       function increment (incrementBy) {
         var to = currentArrayPosition
@@ -182,6 +213,7 @@
         if (e.which === 37) increment(-1)
         else if (e.which === 13 || e.which === 32 || e.which === 39) increment(1)
       })
+      document.querySelector('#fb-logo').addEventListener('click', share)
 
       if (window.location.hash) {
         var hash = window.location.hash.replace(/^#/, '')

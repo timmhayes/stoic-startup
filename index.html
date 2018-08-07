@@ -7,6 +7,8 @@
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
   <meta name="theme-color" content="#000000">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="msapplication-config" content="./icons/browserconfig.xml">
   <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="./icons/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="./icons/favicon-16x16.png">
@@ -14,8 +16,6 @@
   <link rel="shortcut icon" href="./icons/favicon.ico">
   <link rel="manifest" href="./icons/manifest.json">
   <script src="https://connect.facebook.net/en_US/sdk.js"></script>
-  <meta name="msapplication-TileColor" content="#da532c">
-  <meta name="msapplication-config" content="./icons/browserconfig.xml">
   <meta property="og:image" content="./icons/facebook-preview.jpg" />
 
   <title>Stoic Startup</title>
@@ -147,7 +147,7 @@
   </a>
   <script>
 
-    document.addEventListener('DOMContentLoaded', function (event) {
+    function init() {
 
       var currentArrayPosition = -1
 
@@ -157,7 +157,7 @@
         xfbml   : false,
         version : 'v3.1'
       });
-      FB.AppEvents.logPageView();
+      FB.AppEvents.logPageView()
 
       function share(e) {
         FB.ui({
@@ -226,7 +226,9 @@
         increment()
       }
 
-    })
+    }
+
+    document.addEventListener('DOMContentLoaded', init)
 
     var quotes = [
       {
@@ -710,10 +712,10 @@
 
     // shuffle
     for (var i = quotes.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = quotes[i];
-      quotes[i] = quotes[j];
-      quotes[j] = temp;
+      var j = Math.floor(Math.random() * (i + 1))
+      var temp = quotes[i]
+      quotes[i] = quotes[j]
+      quotes[j] = temp
     }
 
     quotes.forEach(function(element) {

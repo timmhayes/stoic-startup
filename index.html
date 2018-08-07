@@ -175,6 +175,7 @@
       }
 
       function increment (incrementBy) {
+
         var to = currentArrayPosition
         if (typeof incrementBy !== 'number') incrementBy = 1
         to += incrementBy
@@ -184,9 +185,11 @@
           to = quotes.length - 1
         }
         goTo(to)
+
       }
 
       function goTo (index, ignorePushState) {
+
         var incoming = document.querySelector('.hidden')
         var outgoing = document.querySelector('.quote-box:not(.hidden)')
         var quoteObj = quotes[index]
@@ -210,6 +213,10 @@
         if (typeof e.state === 'number') {
           goTo(e.state, true)
         }
+      })
+      document.body.addEventListener('swipe', function(e) {
+        if (e.direction === 'right') increment(1)
+        else if (e.direction === 'left') increment(-1)
       })
       document.body.addEventListener('click', increment )
       document.body.addEventListener('touch', increment )
@@ -713,6 +720,67 @@
       }
 
     ]
+
+    // swipe events
+    (function() {
+
+      var pageWidth = window.innerWidth || document.body.clientWidth
+      var treshold = Math.max(1,Math.floor(0.01 * (pageWidth)))
+      var touchstartX = 0
+      var touchstartY = 0
+      var touchendX = 0
+      var touchendY = 0
+      var limit = Math.tan(45 * 1.5 / 180 * Math.PI)
+      var gestureZone = document.body
+
+      gestureZone.addEventListener('touchstart', function(event) {
+          touchstartX = event.changedTouches[0].screenX
+          touchstartY = event.changedTouches[0].screenY
+      }, false)
+
+      gestureZone.addEventListener('touchend', function(event) {
+          touchendX = event.changedTouches[0].screenX
+          touchendY = event.changedTouches[0].screenY
+          handleGesture(event)
+      }, false)
+
+      function castEvent(direction) {
+        var e
+        if (window.CustomEvent) {
+          e = new CustomEvent('swipe')
+        } else {
+          e = document.createEvent('Event')
+          e.initEvent('swipe')
+        }
+        e.direction = direction
+        document.body.dispatchEvent(e)
+      }
+
+      function handleGesture(e) {
+
+        var x = touchendX - touchstartX
+        var y = touchendY - touchstartY
+        var xy = Math.abs(x / y)
+        var yx = Math.abs(y / x)
+        if (Math.abs(x) > treshold || Math.abs(y) > treshold) {
+          if (yx <= limit) {
+            if (x < 0) {
+              castEvent('left')
+            } else {
+              castEvent('right')
+            }
+          }
+          if (xy <= limit) {
+            if (y < 0) {
+              castEvent('top')
+            } else {
+              castEvent('bottom')
+            }
+          }
+        }
+      }
+
+    }())
 
     // shuffle
     for (var i = quotes.length - 1; i > 0; i--) {

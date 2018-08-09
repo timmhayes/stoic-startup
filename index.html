@@ -81,11 +81,12 @@
     }
 
     .logo {
-      opacity: 0.3;
+      opacity: 0.5;
       position: fixed;
       right: 60px;
       top: 10px;
       transition: 0.5s opacity;
+      z-index: 100;
     }
 
     .logo:focus, .logo:hover {
@@ -100,6 +101,41 @@
       right: 10px;
     }
 
+    .copy {
+      position: fixed;
+      z-index: 100;
+    }
+
+    .nav-button {
+      background: transparent;
+      border: 1px white solid;
+      border-radius: 4px;
+      bottom: 5px;
+      color: #fff;
+      cursor: pointer;
+      height: 40px;
+      opacity: 0.5;
+      position: fixed;
+      transition: opacity 0.5s;
+      width: 40px;
+    }
+      .nav-button:hover, .nav-button:focus {
+        opacity: 1;
+      }
+
+      .nav-button.back {
+        left: 5px;
+      }
+
+      .nav-button.copy {
+        left: 50%;
+        margin-left: -75px;
+        width: 150px;;
+      }
+
+      .nav-button.next {
+        right: 5px;
+      }
 
     @media (max-width: 960px) {
       .long .quote {
@@ -132,6 +168,12 @@
 </head>
 
 <body>
+  <a id="fb-logo" class="logo" href="#" title="Share on Facebook">
+    <img src="icons/facebook.svg" alt="Facebook Logo"/>
+  </a>
+  <a id="gh-logo" class="logo" href="https://github.com/timmhayes/stoic-startup" title="GitHub Source">
+    <img src="icons/GitHub-Mark-Light-32px.png" alt="GitHub Logo"/>
+  </a>
   <section class="flex">
     <div class="quote-box">
       <div class="quote"></div>
@@ -144,12 +186,24 @@
       <div class="author"></div>
     </div>
   </section>
-  <a id="fb-logo" class="logo" href="#" title="Share on Facebook">
-    <img src="icons/facebook.svg" alt="Facebook Logo"/>
-  </a>
-  <a id="gh-logo" class="logo" href="https://github.com/timmhayes/stoic-startup" title="GitHub Source">
-    <img src="icons/GitHub-Mark-Light-32px.png" alt="GitHub Logo"/>
-  </a>
+
+  <button class="nav-button back" aria-label="Previous Quote">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px"
+      height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" fill="white" xml:space="preserve">
+      <g id="Bounding_Boxes"><path opacity="0.87" fill="none" d="M0,0h24v24H0V0z"/></g>
+      <g id="Outline_1_"><path d="M17.51,3.87L15.73,2.1L5.84,12l9.9,9.9l1.77-1.77L9.38,12L17.51,3.87z"/></g>
+  </svg>
+  </button>
+
+  <button class="nav-button copy" aria-label="Copy to clipboard">Copy to clipboard</button>
+
+  <button class="nav-button next" aria-label="Next Quote">
+    <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px"
+        height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" fill="white" xml:space="preserve">
+      <g id="Bounding_Boxes"><path opacity="0.87" fill="none" d="M24,24H0L0,0l24,0V24z"/></g>
+      <g id="Outline_1_"><path d="M6.49,20.13l1.77,1.77l9.9-9.9l-9.9-9.9L6.49,3.87L14.62,12L6.49,20.13z"/></g>
+    </svg>
+  </button>
   <script>
 
     function init() {
@@ -194,6 +248,7 @@
         var incoming = document.querySelector('.hidden')
         var outgoing = document.querySelector('.quote-box:not(.hidden)')
         var quoteObj = quotes[index]
+        var copyButton = document.querySelector('.copy')
         incoming.classList.remove('hidden') // ie doesn't support multiple params on classlist methods
         incoming.classList.remove('short')
         incoming.classList.remove('long')
@@ -206,6 +261,7 @@
           var action = index === 0 ? 'replaceState' : 'pushState'
           window.history[action](index, null, '#' + quoteObj.hash)
         }
+        copyButton.innerText = copyButton.getAttribute('aria-label')
         currentArrayPosition = index
 
       }
@@ -226,6 +282,17 @@
         else if (e.keyCode === 13 || e.keyCode === 32 || e.keyCode === 39) increment(1)
       })
       document.querySelector('#fb-logo').addEventListener('click', share)
+      document.querySelector('.nav-button.back').addEventListener('click', function(e) {
+        increment(-1)
+        e.stopPropagation()
+      })
+      document.querySelector('.copy').addEventListener('click', function (e) {
+        var q = quotes[currentArrayPosition]
+        var str = '"' + q.quote + '" - ' + q.author
+        var success = copyToClipboard(str)
+        if (success) this.innerText = 'Quote copied!'
+        e.stopPropagation()
+      })
 
       if (window.location.hash) {
         var hash = window.location.hash.replace(/^#/, '')
@@ -729,10 +796,12 @@
       quotes[i] = quotes[j]
       quotes[j] = temp
     }
+
     quotes.forEach(function(element) {
       var short = element.quote.match(/^(\w+\W*,*){1,10}/)
       element.hash = encodeURI(short[0].replace(/ $/gi, '').replace(/[ —]/gi, '_').replace(/[\:;,.\?\’]/gi, '').toLowerCase())
     });
+
     // swipe events
     (function() {
 
@@ -794,6 +863,18 @@
 
     }())
 
+    function copyToClipboard(str) {
+      try {
+        var el = document.createElement('textarea')
+        el.value = str
+        document.body.appendChild(el)
+        el.select()
+        document.execCommand('copy')
+        document.body.removeChild(el)
+        return true
+      } catch (e) {
+        return false
+      }
     }
 
     // polyfill for IE 11

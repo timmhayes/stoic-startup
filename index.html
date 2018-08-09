@@ -722,6 +722,17 @@
 
     ];
 
+    // shuffle
+    for (var i = quotes.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1))
+      var temp = quotes[i]
+      quotes[i] = quotes[j]
+      quotes[j] = temp
+    }
+    quotes.forEach(function(element) {
+      var short = element.quote.match(/^(\w+\W*,*){1,10}/)
+      element.hash = encodeURI(short[0].replace(/ $/gi, '').replace(/[ —]/gi, '_').replace(/[\:;,.\?\’]/gi, '').toLowerCase())
+    });
     // swipe events
     (function() {
 
@@ -783,18 +794,7 @@
 
     }())
 
-    // shuffle
-    for (var i = quotes.length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1))
-      var temp = quotes[i]
-      quotes[i] = quotes[j]
-      quotes[j] = temp
     }
-
-    quotes.forEach(function(element) {
-      var short = element.quote.match(/^(\w+\W*,*){1,10}/)
-      element.hash = encodeURI(short[0].replace(/ $/gi, '').replace(/[ —]/gi, '_').replace(/[\:;,.\?\’]/gi, '').toLowerCase())
-    })
 
     // polyfill for IE 11
     if (!Array.prototype.findIndex) {

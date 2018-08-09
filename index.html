@@ -9,10 +9,10 @@
   <meta name="theme-color" content="#000000">
   <meta property="fb:app_id" content="210276656313368">
   <meta property="og:description" content="Start your day with stoic quotes">
-  <meta property="og:image" content="https://timmhayes.github.io/stoic-startup/icons/facebook-preview.jpg">
+  <meta property="og:image" content="https://stoicstartup.app/icons/facebook-preview.jpg">
   <meta property="og:title" content="Stoic Startup">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://timmhayes.github.io/stoic-startup">
+  <meta property="og:url" content="https://stoicstartup.app">
   <meta name="msapplication-TileColor" content="#da532c">
   <meta name="msapplication-config" content="./icons/browserconfig.xml">
   <link rel="apple-touch-icon" sizes="180x180" href="./icons/apple-touch-icon.png">
@@ -167,8 +167,8 @@
       function share(e) {
         FB.ui({
           method: 'share',
-          href: 'https://timmhayes.github.io/stoic-startup/' + location.hash,
-          source: 'https://timmhayes.github.io/stoic-startup/icons/android-chrome-256x256.png',
+          href: 'https://stoicstartup.app/' + location.hash,
+          source: 'https://stoicstartup.app/icons/android-chrome-256x256.png',
           quote: '"' + quotes[currentArrayPosition].quote + '" - ' + quotes[currentArrayPosition].author
         }, function(response){});
         e.stopPropagation()

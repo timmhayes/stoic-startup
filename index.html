@@ -21,7 +21,6 @@
   <link rel="mask-icon" href="./icons/safari-pinned-tab.svg" color="#5bbad5">
   <link rel="shortcut icon" href="./icons/favicon.ico">
   <link rel="manifest" href="./icons/manifest.json">
-  <script src="https://connect.facebook.net/en_US/sdk.js"></script>
 
   <title>Stoic Startup</title>
   <style>
@@ -210,15 +209,8 @@
 
       var currentArrayPosition = -1
 
-      FB.init({
-        appId   : 210276656313368,
-        status  : true,
-        xfbml   : false,
-        version : 'v3.1'
-      });
-      FB.AppEvents.logPageView()
-
       function share(e) {
+        if (!window.FB) return
         FB.ui({
           method: 'share',
           href: 'https://stoicstartup.app/' + location.hash,
@@ -904,6 +896,26 @@
         writable: true
       })
     }
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId   : 210276656313368,
+        status  : true,
+        xfbml   : false,
+        version : 'v3.1'
+      })
+      FB.AppEvents.logPageView()
+    };
+
+  (function(d, s, id){
+     var js, fjs = d.getElementsByTagName(s)[0];
+     if (d.getElementById(id)) {return;}
+     js = d.createElement(s); js.id = id;
+     js.src = "https://connect.facebook.net/en_US/sdk.js";
+     fjs.parentNode.insertBefore(js, fjs);
+   }(document, 'script', 'facebook-jssdk'));
+
+
   </script>
 </body>
 

@@ -1,11 +1,13 @@
-var cacheName = 'stoic-startup-0.1'
+var cacheName = 'stoic-startup-0.2'
 var filesToCache = [
-  '/index.html',
-  '/icons/facebook.svg',
-  '/icons/GitHub-Mark-Light-32px.png',
-  '/icons/manifest.json',
-  '/icons/favicon-32x32.png',
-  '/icons/favicon-16x16.png',
+  '/',
+  'index.html',
+  'service-worker.js',
+  'icons/facebook.svg',
+  'icons/GitHub-Mark-Light-32px.png',
+  'icons/manifest.json',
+  'icons/favicon-32x32.png',
+  'icons/favicon-16x16.png',
   'https://connect.facebook.net/en_US/sdk.js'
 ]
 
@@ -14,7 +16,12 @@ self.addEventListener('install', function (e) {
   e.waitUntil(
     caches.open(cacheName).then(function (cache) {
       console.log('[ServiceWorker] Caching app shell')
-      return cache.addAll(filesToCache)
+      return cache.addAll(filesToCache.map(function (urlToPrefetch) {
+        console.log(urlToPrefetch)
+        return new Request(urlToPrefetch, { mode: 'no-cors' })
+      })).catch(function (e) {
+        console.log('Reqest Error', e)
+      })
     })
   )
 })
@@ -22,7 +29,7 @@ self.addEventListener('install', function (e) {
 self.addEventListener('activate', function (e) {
   console.log('[ServiceWorker] Activate')
   e.waitUntil(
-    caches.keys().then(function(keyList) {
+    caches.keys().then(function (keyList) {
       return Promise.all(keyList.map(function (key) {
         if (key !== cacheName) {
           console.log('[ServiceWorker] Removing old cache', key)
@@ -34,10 +41,10 @@ self.addEventListener('activate', function (e) {
   return self.clients.claim()
 });
 
-self.addEventListener('fetch', function(e) {
-  console.log('[ServiceWorker] Fetch', e.request.url)
+self.addEventListener('fetch', function (e) {
+  console.log('[ServiceWorker] Fetch', e.request)
   e.respondWith(
-    caches.match(e.request).then(function(response) {
+    caches.match(e.request).then(function (response) {
       return response || fetch(e.request)
     })
   )

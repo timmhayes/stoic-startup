@@ -1,4 +1,4 @@
-var cacheName = 'stoic-startup-0.2'
+var cacheName = 'stoic-startup-0.3'
 var filesToCache = [
   '/',
   'index.html',
@@ -18,7 +18,7 @@ self.addEventListener('install', function (e) {
       console.log('[ServiceWorker] Caching app shell')
       return cache.addAll(filesToCache.map(function (urlToPrefetch) {
         console.log(urlToPrefetch)
-        return new Request(urlToPrefetch, { mode: 'no-cors' })
+        return new Request(urlToPrefetch, { mode: 'cors' })
       })).catch(function (e) {
         console.log('Reqest Error', e)
       })

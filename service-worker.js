@@ -1,14 +1,20 @@
-var cacheName = 'stoic-startup-0.3'
+/* global self, caches, Request, fetch */
+
+var cacheName = 'stoic-startup-0.4'
 var filesToCache = [
   '/',
   'index.html',
   'service-worker.js',
+  'icons/apple-touch-icon.png',
   'icons/facebook.svg',
   'icons/GitHub-Mark-Light-32px.png',
   'icons/manifest.json',
-  'icons/favicon-32x32.png',
+  'icons/favicon.ico',
   'icons/favicon-16x16.png',
-  'https://connect.facebook.net/en_US/sdk.js'
+  'icons/favicon-32x32.png',
+  'icons/android-chrome-192x192.png',
+  'icons/android-chrome-256x256.png',
+  'icons/android-chrome-512x512.jpg'
 ]
 
 self.addEventListener('install', function (e) {
@@ -18,7 +24,7 @@ self.addEventListener('install', function (e) {
       console.log('[ServiceWorker] Caching app shell')
       return cache.addAll(filesToCache.map(function (urlToPrefetch) {
         console.log(urlToPrefetch)
-        return new Request(urlToPrefetch, { mode: 'cors' })
+        return new Request(urlToPrefetch, { mode: 'no-cors' })
       })).catch(function (e) {
         console.log('Reqest Error', e)
       })
@@ -39,13 +45,14 @@ self.addEventListener('activate', function (e) {
     })
   )
   return self.clients.claim()
-});
+})
 
 self.addEventListener('fetch', function (e) {
   console.log('[ServiceWorker] Fetch', e.request)
   e.respondWith(
     caches.match(e.request).then(function (response) {
+      console.log('cached? ', response)
       return response || fetch(e.request)
     })
   )
-});
+})

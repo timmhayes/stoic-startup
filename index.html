@@ -95,7 +95,7 @@
       opacity: 1;
     }
 
-    #fb-logo {
+    .facebook-enabled #fb-logo {
       width: 32px;
     }
 
@@ -209,6 +209,35 @@
   </button>
   <script>
 
+    /* Google Analytics integration*/
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga')
+
+    ga('create', 'UA-124894314-1', 'auto')
+    ga('send', 'pageview')
+
+    /* Facebook integration */
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId   : 210276656313368,
+        status  : true,
+        xfbml   : false,
+        version : 'v3.1'
+      })
+      FB.AppEvents.logPageView()
+      document.body.classList.add('facebook-enabled')
+    };
+
+    (function(d, s, id){
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) {return;}
+      js = d.createElement(s); js.id = id;
+      js.src = "https://connect.facebook.net/en_US/sdk.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'))
+
     function init() {
       var currentArrayPosition = -1
 
@@ -220,6 +249,11 @@
           source: 'https://stoicstartup.app/icons/android-chrome-256x256.png',
           quote: '"' + quotes[currentArrayPosition].quote + '" - ' + quotes[currentArrayPosition].author
         }, function(response){});
+        ga('send', 'social', {
+          'socialNetwork': 'facebook',
+          'socialAction': 'share',
+          'socialTarget': 'https://stoicstartup.app/' + location.hash
+        })
         e.stopPropagation()
         return false
       }
@@ -258,8 +292,9 @@
         }
         copyButton.innerText = copyButton.getAttribute('aria-label')
         currentArrayPosition = index
+        ga('send', 'pageview')
 
-      }
+}
 
       window.addEventListener('popstate', function (e) {
         if (typeof e.state === 'number') {
@@ -899,25 +934,6 @@
         writable: true
       })
     }
-
-    /* Facebook integration */
-    window.fbAsyncInit = function() {
-      FB.init({
-        appId   : 210276656313368,
-        status  : true,
-        xfbml   : false,
-        version : 'v3.1'
-      })
-      FB.AppEvents.logPageView()
-    };
-
-  (function(d, s, id){
-     var js, fjs = d.getElementsByTagName(s)[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement(s); js.id = id;
-     js.src = "https://connect.facebook.net/en_US/sdk.js";
-     fjs.parentNode.insertBefore(js, fjs);
-   }(document, 'script', 'facebook-jssdk'))
 
   if ('serviceWorker' in navigator) {
     console.log("Registering service worker");

@@ -312,6 +312,9 @@
         else if (e.keyCode === 13 || e.keyCode === 32 || e.keyCode === 39) increment(1)
       })
       document.querySelector('#fb-logo').addEventListener('click', share)
+      document.querySelector('#gh-logo').addEventListener('click', function(e) {
+        e.stopPropagation()
+      })
       document.querySelector('.nav-button.back').addEventListener('click', function(e) {
         increment(-1)
         e.stopPropagation()

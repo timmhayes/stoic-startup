@@ -939,7 +939,6 @@
     }
 
   if ('serviceWorker' in navigator) {
-    console.log("Registering service worker");
     navigator.serviceWorker.register('service-worker.js')
       .then(function (reg) {
         console.log("Service worker registered")

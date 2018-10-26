@@ -1,6 +1,6 @@
 /* global self, caches, Request, fetch */
 
-var cacheName = 'stoic-startup-0.5'
+var cacheName = 'stoic-startup-0.6'
 var filesToCache = [
   '/',
   'index.html',

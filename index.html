@@ -37,6 +37,12 @@
       width: 100%;
     }
 
+    body {
+      cursor: pointer;
+      overflow: hidden;
+      position: fixed;
+    }
+
     .flex {
       align-items: center;
       bottom: 0;
@@ -52,7 +58,6 @@
     .quote-box {
       bottom: 0;
       color: #fff;
-      cursor: pointer;
       padding: 2rem 2rem 2rem 2.5rem;
       max-width: 600px;
       transition: opacity 0.5s, transform 0.5s;
@@ -170,7 +175,7 @@
   </style>
 </head>
 
-<body tabindex="0">
+<body>
   <a id="fb-logo" class="logo" href="#" title="Share on Facebook">
     <img src="icons/facebook.svg" alt="Facebook Logo"/>
   </a>
